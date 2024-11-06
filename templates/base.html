@@ -1,104 +1,23 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <title>Hey, I'm prakhar &#x1F44B;</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <script src="https://kit.fontawesome.com/58675639fe.js" crossorigin="anonymous"></script>
-  <link rel="icon" href="img/favicon.ico" type="icon" sizes="18x18">
-  <link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css') }}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
 </head>
-
 <body>
-
-  <header>
-    <nav id="navbar">
-      <ul>
-        <li><a href="#welcome-section">about</a></li>
-        <li><a href="#projects">projects</a></li>
-        <li><a href="#contact">contact</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-
-    <article id="welcome-section">
-
-      <section>
-        <h1>hey, I'm prakhar &#x1F44B;</h1>
-        <div class="social-media">
-          <a href="https://twitter.com/sxnaprkhr" target="_blank"><i class="fab fa-twitter profile-link"></i></a>
-          <a href="https://github.com/sxnaprkhr" target="_blank" id="profile-link"><i
-              class="fab fa-github profile-link"></i></a>
-          <a href="https://www.linkedin.com/in/sxnaprkhr/" target="_blank"><i
-              class="fab fa-linkedin profile-link"></i></a>
-        </div>
-      </section>
-
-      <section>
-        <h2>I'm a(n)</h2>
-        <ul class="about-me-lists">
-          <li>undergrad</li>
-          <li>javascript, react developer</li>
+    <nav>
+        <ul class="menu">
+          <li><a href="#!">Home</a></li>
+          <li><a href="#!">About</a></li>
+          <li><a href="#!">Projects</a></li>
+          <li><a href="#!">Contact</a></li>
         </ul>
-      </section>
-
-    </article>
-
-    <article id="projects">
-
-      <h2>projects</h2>
-
-      <section>
-        <div class="project-tile">
-          <a href="https://codepen.io/sxnaprkhr/full/wxYxyx" target="_blank">
-            <span class="main-info">tribute to chester bennington</span>
-            <span class="extra-info">a small project paying tribute to a legend</span>
-          </a>
-        </div>
-
-        <div class="project-tile">
-          <a href="https://codepen.io/sxnaprkhr/full/GBzdXx" target="_blank">
-            <span class="main-info">replica of apple's homepage</span>
-            <span class="extra-info">a knock-off of apple.com</span>
-          </a>
-        </div>
-
-        <div class="project-tile">
-          <a href="https://codepen.io/sxnaprkhr/full/bjQBNV" target="_blank">
-            <span class="main-info">freeCodeCamp's survey form</span>
-            <span class="extra-info">a survey form</span>
-          </a>
-        </div>
-      </section>
-
-      <p>more at <a href="https://github.com/sxnaprkhr" target="_blank"><i class="fab fa-github"></i></a> and <a
-          href="https://codepen.io/sxnaprkhr" target="_blank"><i class="fab fa-codepen"></i></a></p>
-
-    </article>
-
-    <article id="contact">
-
-      <h2>contact</h2>
-      <div class="social-media">
-        <a href="https://twitter.com/sxnaprkhr" target="_blank"><i class="fab fa-twitter profile-link"></i></a>
-        <a href="https://github.com/sxnaprkhr" target="_blank"><i class="fab fa-github profile-link"></i></a>
-        <a href="https://www.linkedin.com/in/sxnaprkhr/" target="_blank"><i
-            class="fab fa-linkedin profile-link"></i></a>
-        <a href="mailto:saxena.prakhar17@gmail.com" target="_blank"><i class="far fa-envelope profile-link"></i></a>
-      </div>
-
-    </article>
-
-  </main>
-
-  <footer>
-    <span>made with <span class="heart">❤️</span> by <a href="https://twitter.com/sxnaprkhr" target="_blank">prakhar</a>
-      using pure CSS</span>
-  </footer>
-
+      </nav>
+<div id="content">
+    <h1 aria-label="Hi! I'm a developer">
+        Hi! I'm a&nbsp;<span class="typewriter"></span>
+    </h1>
+</div>
 </body>
-
 </html>
