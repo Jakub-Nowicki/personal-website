@@ -1,0 +1,207 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;1,200&display=swap');
+
+:root {
+  --small-screen-width:90%;
+  --large-screen-width:70%;
+  --text-size:1.25rem;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body, header, nav, ul, li, main, article, section, footer, a {
+  margin:0;
+  padding:0;
+  list-style-type: none;
+  color:white;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  background-color:black;
+  font-family: Poppins, sans-serif;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 999;
+  background-color:black;
+}
+
+#navbar, #contact, footer {
+  width:var(--small-screen-width);
+}
+
+#navbar ul {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#navbar li {
+  margin:1em;
+}
+
+#welcome-section, #projects {
+  width: var(--small-screen-width);
+  min-height:100vh;
+  margin:0 auto;
+  padding:4rem 0;
+}
+
+#welcome-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#welcome-section > * {
+  margin: 1.5em 0em;
+}
+
+#welcome-section h1 {
+  font-size: calc(1.75rem + 2vw);
+}
+
+#welcome-section .about-me-lists {
+  margin-left:1.25em;
+  font-size: var(--text-size);
+}
+
+.about-me-lists li:before {
+  content:"\003E \0020";
+}
+
+.social-media {
+  display: flex;
+}
+
+.social-media a {
+  font-size:2em;
+  margin-right:1em;
+}
+
+.social-media a:last-child {
+  margin:0;
+}
+
+#projects {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#projects section {
+  display:flex;
+  justify-content:center;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+.project-tile {
+  text-align: center;
+  flex-basis:180px;
+  height:180px;
+  background-color:#32333b;
+  border-radius:0.5rem;
+  margin:1em;
+  transition: all 0.3s ease-in-out;
+}
+
+.project-tile:hover {
+  transform:scale(1.03);
+  background-color:white;
+  color:black;
+  box-shadow:0 10px 30px -5px rgba(255,255,255,0.2);
+}
+
+.project-tile a {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100%;
+}
+
+.main-info {
+  font-size:1.125em;
+}
+
+.extra-info {
+  display: none;
+}
+
+.project-tile:hover a {
+  color:black;
+}
+
+#projects p {
+  text-align: center;
+  font-size: var(--text-size);
+}
+
+#projects p a {
+  margin:0 0.5em;
+}
+
+#contact {
+  margin:0 auto;
+  padding:2rem 0;
+}
+
+#contact .social-media {
+  justify-content: center;
+  align-items: center;
+  padding:2rem 0;
+}
+
+footer {
+  text-align: center;
+  margin:0 auto;
+  padding-bottom:1em;
+}
+
+footer .heart {
+  color:red;
+}
+
+.heart + a:hover {
+  border-bottom: 3.5px solid white;
+}
+
+header a:hover, footer a {
+  border-bottom:2px solid white;
+}
+
+@media screen and (min-width:769px) {
+
+  #welcome-section h1 {
+    font-size: calc(1.5rem + 2vw);
+  }
+
+  #navbar, #welcome-section, #projects, #contact, footer {
+    width:var(--large-screen-width);
+  }
+
+  .project-tile {
+    flex-basis: 250px;
+    height: 250px;
+  }
+
+  .project-tile:hover .extra-info {
+    display: inline;
+    font-style: italic;
+  }
+}
