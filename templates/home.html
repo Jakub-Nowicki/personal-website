@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}
+    Home Page
+{% endblock %}
+
+{% block link_css %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/home.css')}}">
+{% endblock %}
+
+{% block content %}
+    <div id="content">
+        <h1 aria-label="Hi! I'm a developer">
+            Hi! I'm a&nbsp;<span class="typewriter"></span>
+        </h1>
+    </div>
+{% endblock %}

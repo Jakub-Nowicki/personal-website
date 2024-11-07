@@ -2,8 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
+    <title>
+        {% block title %}
+
+        {% endblock %}
+    </title>
+
+    {% block link_css %}
+
+    {% endblock %}
+
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/base.css')}}">
 </head>
 <body>
     <nav>
@@ -14,10 +23,10 @@
           <li><a href="#!">Contact</a></li>
         </ul>
       </nav>
-<div id="content">
-    <h1 aria-label="Hi! I'm a developer">
-        Hi! I'm a&nbsp;<span class="typewriter"></span>
-    </h1>
-</div>
+
+    {% block content %}
+
+    {% endblock %}
+
 </body>
 </html>
