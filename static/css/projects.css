@@ -1,60 +1,52 @@
-.container {
-  display: grid;
-  width: 1000px;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 300px);
-  grid-gap: 1rem;
+#content {
+    width: 55%;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for a cleaner look */
+    display: flex;
+    flex-direction: column; /* Makes child elements stack vertically */
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
 }
 
-.item {
-  background-color: #d94f5c; /* Base color */
-  /* Clean vertical gradient transitioning smoothly to #1c1d22 */
-  background-image: linear-gradient(to bottom, #d94f5c 0%, #b85053 40%, #933c4a 70%, #1c1d22 100%);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-  color: #fff;
-  border-radius: 4px;
-  border: 6px solid #1c1d22; /* Updated border color */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+#content div {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5); /* Light separator lines */
+    padding-bottom: 20px; /* Space below each div */
+    margin-bottom: 20px; /* Additional space below each div */
+    transition: border-color 0.3s, color 0.3s; /* Smooth transition for color and border */
 }
 
-.item a {
-  color: #fff;
-  text-decoration: none; /* No underline */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
+#content div:not(:last-child) {
+    border-bottom: 2px solid #777; /* Adds a line between divs */
 }
 
-.item:hover {
-  transform: scale(1.05);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.30);
+#content div:hover {
+    border-color: #d94f5c; /* Changes border color on hover */
 }
 
-.position {
-  height: 70vh; /* Full viewport height */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0; /* Remove any default margin */
+h1, h3 {
+    font-size: 2.5em; /* Larger size for main headings */
+    font-weight: bold;
+    margin-bottom: 0.5em; /* Adds space below the heading */
+    color: #777; /* Default text color */
+    transition: color 0.3s; /* Smooth transition for text color */
 }
 
-h1 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0; /* Remove any default margin */
-  height: 12vh; /* Full viewport height */
+h3 {
+    font-size: 1.2em; /* Smaller than H1 but clear */
 }
 
-p {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 1.4em;
-  font-weight: bold;
-  color: #222;
-  text-shadow: 0 0 40px #FFFFFF, 0 0 30px #FFFFFF, 0 0 20px #FFFFFF;
+#content div:hover h1,
+#content div:hover h3 {
+    color: #d94f5c; /* Changes text color on hover */
+}
+
+a {
+    text-decoration: none; /* Removes underline */
+    color: inherit; /* Keeps the link color consistent with the surrounding text */
+}
+
+a:hover, a:focus {
+    color: inherit; /* Prevents color change on hover and focus */
+    text-decoration: none; /* Ensures no underline or other decoration on hover/focus */
 }

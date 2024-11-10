@@ -9,35 +9,28 @@
 {% endblock %}
 
 {% block content %}
-    <div class ="position">
-        <div class="container">
-          <div class="item item1">
-              <center>
-                  <a href="{{ url_for('sudoku_solver') }}" style="display: block; height: 100%;">
-                      <h1>Sudoku Solver</h1>
-                  </a>
-              </center>
+    <div id="content">
 
-          </div>
-          <div class="item item2">
-              <center>
-                  <a href="{{ url_for('sudoku_solver') }}" style="display: block; height: 100%">
-                      <h1>Numeral System Converter</h1>
-                  </a>
-              </center>
+        <a href="{{ url_for('sudoku_solver') }}">
+            <div id="rps">
+                <h1>Rock Paper Scissors OpenCV Game</h1>
+                <h3>✊✋✌️ Play Rock-Paper-Scissors using hand gestures recognized by OpenCV and MediaPipe </h3>
+            </div>
+        </a>
 
-          </div>
-          <div class="item item3">
-              <center>
-                  <a href="{{ url_for('sudoku_solver') }}" style="display: block; height: 100%">
-                      <h1>Rock Paper Scissors Camera Game</h1>
-                  </a>
-              </center>
-          </div>
-          <div class="item item4"><h1>Coming soon</h1></div>
-          <div class="item item5"><h1>Coming soon</h1></div>
-          <div class="item item6"><h1>Coming soon</h1></div>
-        </div>
+        <a href="{{ url_for('home_page') }}">
+            <div id="numeral">
+                <h1>Numeral Base Converter</h1>
+                <h3>🔢 Convert numbers between different bases with a Flask-powered web interface  🧮</h3>
+            </div>
+        </a>
+
+        <a href="{{ url_for('home_page') }}">
+            <div id="sudoku">
+                <h1>Sodoku Solver</h1>
+                <h3>🧩 A web app that dynamically solves and displays Sudoku puzzles using Flask ✏️</h3>
+            </div>
+        </a>
+
     </div>
-
 {% endblock %}
