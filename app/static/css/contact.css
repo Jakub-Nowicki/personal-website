@@ -1,0 +1,94 @@
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+.icon--googleplus::before {
+  content: "\f0d5";
+}
+
+.social__icon--googleplus {
+  background-color: #fa5432;
+}
+.social__icon--googleplus:hover {
+  background-color: #d5472b;
+}
+
+.icon--instagram::before {
+  content: "\f16d";
+}
+
+.social__icon--instagram {
+  background-color: #6291b2;
+}
+.social__icon--instagram:hover {
+  background-color: #537b97;
+}
+
+.icon--linkedin::before {
+  content: "\f0e1";
+}
+
+.social__icon--linkedin {
+  background-color: #0087be;
+}
+.social__icon--linkedin:hover {
+  background-color: #0073a2;
+}
+
+.icon--github::before {
+  content: "\f113";
+}
+
+.social__icon--github {
+  background-color: #333333;
+}
+.social__icon--github:hover {
+  background-color: #2b2b2b;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.social__item {
+  display: inline-block;
+  margin-right: 0.1em;
+}
+
+.icon, [class^=icon--] {
+  font-family: "FontAwesome";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.social__icon, [class^=social__icon] {
+  font-size: 1.4em;
+  color: white;
+  text-decoration: none;
+  border-radius: 100%;
+  width: 2.2em;
+  height: 2.2em;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social__container {
+  padding: 1em;
+  font-size: 1.5em;
+}/*# sourceMappingURL=contact.css.map */
+
+#content {
+    width: 55%;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for a cleaner look */
+    display: flex;
+    flex-direction: column; /* Makes child elements stack vertically */
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}

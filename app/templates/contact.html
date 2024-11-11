@@ -3,3 +3,35 @@
 {% block title %}
     Contact
 {% endblock %}
+
+{% block link_css %}
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/contact.css')}}">
+{% endblock %}
+
+{% block content %}
+    <div id="content">
+
+
+
+
+
+
+
+
+
+        <div id="icons">
+            <div class="social__item">
+                <a target="_blank" href="https://github.com/Jakub-Nowicki?tab=repositories" class="social__icon--github"><i class="icon--github"></i></a>
+            </div>
+
+            <div class="social__item">
+                <a target="_blank" href="https://www.instagram.com/nowickii.j/" class="social__icon--instagram"><i class="icon--instagram"></i></a>
+            </div>
+
+            <div class="social__item">
+                <a target="_blank" href="https://www.linkedin.com/in/jakub-nowicki13/" class="social__icon--linkedin"><i class="icon--linkedin"></i></a>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
