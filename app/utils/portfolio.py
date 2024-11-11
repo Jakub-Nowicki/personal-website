@@ -1,4 +1,4 @@
-from sudoku_solver import display_board, solve, find_empty, valid
+from sudoku_solver import solve
 from converter import convert_to_decimal, convert_to_any_base
 from flask import Flask, render_template, redirect, url_for, request
 

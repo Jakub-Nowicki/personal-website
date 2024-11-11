@@ -30,7 +30,7 @@ def solve(bo):
     
         if valid(bo, i, (row, col)):
             bo[row][col] = i
-            display_board(bo)
+            # display_board(bo)
             if solve(bo):
                 return True  # true if the number might be right
             
