@@ -10,14 +10,17 @@
 
 {% block content %}
     <div id="content">
+<div class="contact__info">
+        <p>Email: jjnowicki24@gmail.com</p>
+        <p>WhatsApp: +48 785 85 20 20</p>
+        <p>Phone: +1 (812) 456 6534</p>
+    </div>
 
-
-
-
-
-
-
-
+    <!-- Resume Downloads -->
+    <div class="resume__downloads">
+        <a href="{{ url_for('static', filename='files/Jakub_Nowicki_Resume.docx') }}" class="resume__link" download>Download Resume (DOCX)</a>
+        <a href="{{ url_for('static', filename='files/Jakub_Nowicki_Resume.pdf') }}" class="resume__link" download>Download Resume (PDF)</a>
+    </div>
 
         <div id="icons">
             <div class="social__item">

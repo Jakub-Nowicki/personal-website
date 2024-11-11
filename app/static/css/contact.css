@@ -91,4 +91,43 @@
     justify-content: center;
     align-items: center;
     margin: 0 auto;
+    color: #777;
 }
+
+.contact__info p {
+    margin-bottom: 15px; /* Spacing between contact items */
+}
+
+/* Resume download button styling */
+.resume__link {
+    display: inline-block;
+    margin: 5px 10px;
+    padding: 10px 15px;
+    background-color: #777;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none; /* Ensures no underline */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
+}
+
+.resume__link:hover {
+    background-color: #d94f5c; /* Changes background on hover as requested */
+    color: white; /* Keeps text color white on hover */
+    text-decoration: none; /* Reinforce no underline on hover */
+}
+
+/* Styles for <p> tags */
+p {
+    transition: color 0.3s ease, font-size 0.3s ease; /* Smooth transition for hover effects */
+    font-size: 1.2em;
+}
+
+p:hover {
+    color: #d94f5c; /* Changes text color on hover */
+    font-size: 1.5em; /* Increases text size on hover */
+}
+
+#icons{
+    margin-top: 15px;
+}
+
