@@ -18,3 +18,7 @@ def projects_page():
 @home_bp.route('/contact')
 def contact_page():
     return render_template('contact.html')
+
+@home_bp.route('/rps-game')
+def rps_page():
+    return render_template('rps.html')
