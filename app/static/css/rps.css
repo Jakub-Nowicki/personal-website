@@ -9,3 +9,14 @@
     margin: 0 auto;
     color: #777;
 }
+
+.rps-image {
+    width: 90%; /* Each image will take roughly a third of the container's width */
+    padding: 10px; /* Adds space around each image */
+    box-sizing: border-box; /* Includes padding in the element's total width and height */
+}
+
+p {
+    font-size: 36px; /* Sets the font size to 18 pixels, adjust this value as needed */
+}
+

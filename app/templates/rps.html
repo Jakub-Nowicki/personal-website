@@ -10,6 +10,11 @@
 
 {% block content %}
     <div id="content">
+        <p>Images of the app: </p>
+        <img src="{{ url_for('static', filename='files/sc_1.png') }}" alt="Rock" class="rps-image">
+        <img src="{{ url_for('static', filename='files/sc_2.png') }}" alt="Paper" class="rps-image">
+        <img src="{{ url_for('static', filename='files/sc_3.png') }}" alt="Scissors" class="rps-image">
+
 
     </div>
 {% endblock %}
