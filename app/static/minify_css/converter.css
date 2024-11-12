@@ -1,0 +1,73 @@
+.converter-container {
+    width: 100%;
+    max-width: 400px; /* Maintains the narrower width */
+    padding: 60px; /* Increased padding to make it taller */
+    background-color: #1c1d22; /* Brighter semi-transparent white background */
+    border-radius: 20px; /* More pronounced rounded corners */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto; /* Centers the container horizontally */
+    position: absolute; /* Absolute positioning for specific placement */
+    top: 10%; /* Positioned a bit higher */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, 0); /* Adjust the horizontal centering */
+    border: 1px solid #d94f5c; /* Thin reddish border */
+}
+
+.form-group {
+    width: 100%;
+    margin-bottom: 20px;
+    color: #777; /* Setting text color */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #777; /* Setting label text color */
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    box-sizing: border-box;
+    height: 50px;
+    padding: 8px;
+    font-size: 18px;
+    border: 1px solid #ced4da;
+    border-radius: 8px; /* Applies rounded corners to inputs and selects */
+    background-color: #e9ecef;
+}
+
+.form-group input:focus, .form-group select:focus {
+    outline: none;
+    border-color: #d94f5c; /* Sets the focus border color to reddish */
+    box-shadow: 0 0 0 2px rgba(217, 79, 92, 0.5); /* Focus shadow to match reddish color */
+}
+
+.base-and-convert {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+
+.convert-btn {
+    padding: 12px 24px;
+    font-size: 18px;
+    background-color: #d94f5c; /* Reddish color for the button */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    align-self: center; /* Ensures the button centers in its flex container */
+}
+
+
+
+.convert-btn:hover {
+    background-color: #ff4757; /* Slightly different shade for hover */
+}
