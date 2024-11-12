@@ -5,20 +5,22 @@
 {% endblock %}
 
 {% block content %}
-    <form action="/update" method="post">
-        <div class="sudoku-container">
-            <table>
-                {% for i in range(9) %}
-                <tr>
-                    {% for j in range(9) %}
-                    <td>
-                        <input type="text" name="cell-{{i}}-{{j}}" value="{{ grid[i][j]}}" >
-                    </td>
+    <div id="content">
+        <form action="/update" method="post">
+            <div class="sudoku-container">
+                <table>
+                    {% for i in range(9) %}
+                    <tr>
+                        {% for j in range(9) %}
+                        <td>
+                            <input type="text" name="cell-{{i}}-{{j}}" value="{{ grid[i][j]}}" >
+                        </td>
+                        {% endfor %}
+                    </tr>
                     {% endfor %}
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-        <button type="submit">Solve</button>
-    </form>
+                </table>
+                <button type="submit">Solve</button>
+            </div>
+        </form>
+    </div>
 {% endblock %}

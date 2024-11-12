@@ -5,20 +5,22 @@
 {% endblock %}
 
 {% block content %}
-    <form action="/solve_grid" method="post">
-            <div class="sudoku-container">
-            <table>
-                {% for i in range(9) %}
-                <tr>
-                    {% for j in range(9) %}
-                    <td>
-                        <input type="text" name="cell-{{i}}-{{j}}" value="{{ grid[i][j] }}" {% if (i, j) in values %}style="color: white;"{% else %}style="color: #ED2939;"{% endif %}>
-                    </td>
-                    {% endfor %}
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-        <button type="submit">Reset</button>
-    </form>
+    <div id="content">
+        <form action="/solve_grid" method="post">
+                <div class="sudoku-container">
+                    <table>
+                        {% for i in range(9) %}
+                        <tr>
+                            {% for j in range(9) %}
+                            <td>
+                                <input type="text" name="cell-{{i}}-{{j}}" value="{{ grid[i][j] }}" {% if (i, j) in values %}style="color: white;"{% else %}style="color: #ED2939;"{% endif %}>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    <button type="submit">Reset</button>
+                </div>
+        </form>
+    </div>
 {% endblock %}

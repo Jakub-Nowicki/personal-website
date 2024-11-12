@@ -1,8 +1,6 @@
 .sudoku-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50vh;
+  margin-top: 1vh;
+  margin-bottom: 3vh;
 }
 
 table {
@@ -41,13 +39,13 @@ input[type="text"]:focus {
   color: #ffffff; /* Ensures text is still visible */
 }
 
-
-
 button {
-  padding: 10px 20px;
+  width: 10vh;
+  height: 4vh;
+  padding: 1vh 2vh;
   font-size: 20px;
   cursor: pointer;
-  margin-top: 40px;
+  margin-top: 4vh; /* Responsive vertical spacing based on the viewport height */
   border: none;
   background-color: #d94f5c; /* Button color to match the menu hover effect */
   color: white;
@@ -58,4 +56,16 @@ button {
 
 button:hover {
   background-color: #ce6132; /* Darker shade on hover to provide feedback */
+}
+
+#content {
+    width: 55%;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for a cleaner look */
+    display: flex;
+    flex-direction: column; /* Makes child elements stack vertically */
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    color: #777;
 }
