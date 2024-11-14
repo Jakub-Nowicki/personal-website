@@ -119,9 +119,7 @@
 .resume__downloads {
   display: flex;
   justify-content: center; /* Centers the buttons horizontally */
-  gap: 10px; /* Space between the buttons */
   flex-wrap: wrap; /* Allows wrapping if the screen is too small */
-  margin-top: 20px; /* Adds some space above the buttons */
 }
 
 /* Styles for <p> tags */
