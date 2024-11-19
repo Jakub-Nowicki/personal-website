@@ -1,71 +1,60 @@
 .sudoku-container {
-  margin-top: 1vh;
-  margin-bottom: 3vh;
+	margin-top: 1vh;
+	margin-bottom: 3vh;
 }
-
 table {
-  border-collapse: collapse;
-  border: 3px solid #ffffff; /* Light border for contrast */
+	border-collapse: collapse;
+	border: 3px solid #ffffff;
 }
-
 td {
-  border: 1px solid #555; /* Subtle borders within the grid */
+	border: 1px solid #555;
 }
-
-td:nth-child(3),
-td:nth-child(6) {
-  border-right: 3px solid #ffffff; /* Thicker borders to delineate blocks */
+td:nth-child(3),td:nth-child(6) {
+	border-right: 3px solid #ffffff;
 }
-
-tr:nth-child(3) td,
-tr:nth-child(6) td {
-  border-bottom: 3px solid #ffffff; /* Similar to columns, for blocks */
+tr:nth-child(3) td,tr:nth-child(6) td {
+	border-bottom: 3px solid #ffffff;
 }
-
 input[type="text"] {
-  width: 60px;
-  height: 60px;
-  font-size: 2rem;
-  text-align: center;
-  border: none;
-  background-color: #2c2f33; /* Dark background for the input fields */
-  color: #ffffff; /* Text color for visibility */
-  transition: background-color 0.3s ease; /* Smooth transition for background color change */
+	width: 60px;
+	height: 60px;
+	font-size: 2rem;
+	text-align: center;
+	border: none;
+	background-color: #2c2f33;
+	color: #ffffff;
+	transition: background-color 0.3s ease;
 }
-
 input[type="text"]:focus {
-  outline: none;
-  background-color: #d94f5c; /* Red background on focus to match the top bar */
-  color: #ffffff; /* Ensures text is still visible */
+	outline: none;
+	background-color: #d94f5c;
+	color: #ffffff;
 }
-
 button {
-  width: 10vh;
-  height: 4vh;
-  padding: 1vh 2vh;
-  font-size: 20px;
-  cursor: pointer;
-  margin-top: 4vh; /* Responsive vertical spacing based on the viewport height */
-  border: none;
-  background-color: #d94f5c; /* Button color to match the menu hover effect */
-  color: white;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+	width: 10vh;
+	height: 4vh;
+	padding: 1vh 2vh;
+	font-size: 20px;
+	cursor: pointer;
+	margin-top: 4vh;
+	border: none;
+	background-color: #d94f5c;
+	color: white;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
-
 button:hover {
-  background-color: #ce6132; /* Darker shade on hover to provide feedback */
+	background-color: #ce6132;
 }
-
 #content {
-    width: 55%;
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for a cleaner look */
-    display: flex;
-    flex-direction: column; /* Makes child elements stack vertically */
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    color: #777;
+	width: 55%;
+	padding: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 0 auto;
+	color: #777;
 }

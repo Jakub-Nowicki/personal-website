@@ -1,22 +1,19 @@
 #content {
-    width: 55%;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for a cleaner look */
-    display: flex;
-    flex-direction: column; /* Makes child elements stack vertically */
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    color: #777;
+	width: 55%;
+	padding: 20px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 0 auto;
+	color: #777;
 }
-
 .rps-image {
-    width: 90%; /* Each image will take roughly a third of the container's width */
-    padding: 10px; /* Adds space around each image */
-    box-sizing: border-box; /* Includes padding in the element's total width and height */
+	width: 90%;
+	padding: 10px;
+	box-sizing: border-box;
 }
-
 p {
-    font-size: 36px; /* Sets the font size to 18 pixels, adjust this value as needed */
+	font-size: 36px;
 }
-

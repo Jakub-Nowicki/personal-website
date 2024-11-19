@@ -1,138 +1,59 @@
-@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+@import url(https: //maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
 .icon--googleplus::before {
-  content: "\f0d5";
+    content: "\f0d5";
 }
-
 .social__icon--googleplus {
-  background-color: #fa5432;
+    background-color: #fa5432;
 }
 .social__icon--googleplus:hover {
-  background-color: #d5472b;
+    background-color: #d5472b;
 }
-
 .icon--instagram::before {
-  content: "\f16d";
+    content: "\f16d";
 }
-
 .social__icon--instagram {
-  background-color: #6291b2;
+    background-color: #6291b2;
 }
 .social__icon--instagram:hover {
-  background-color: #537b97;
+    background-color: #537b97;
 }
-
 .icon--linkedin::before {
-  content: "\f0e1";
+    content: "\f0e1";
 }
-
 .social__icon--linkedin {
-  background-color: #0087be;
+    background-color: #0087be;
 }
 .social__icon--linkedin:hover {
-  background-color: #0073a2;
+    background-color: #0073a2;
 }
-
 .icon--github::before {
-  content: "\f113";
+    content: "\f113";
 }
-
 .social__icon--github {
-  background-color: #333333;
+    background-color: #333333;
 }
 .social__icon--github:hover {
-  background-color: #2b2b2b;
+    background-color: #2b2b2b;
 }
-
 *, *::before, *::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
-
 .social__item {
-  display: inline-block;
-  margin-right: 0.1em;
-}
-
-.icon, [class^=icon--] {
-  font-family: "FontAwesome";
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.social__icon, [class^=social__icon] {
-  font-size: 1.4em;
-  color: white;
-  text-decoration: none;
-  border-radius: 100%;
-  width: 2.2em;
-  height: 2.2em;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.social__container {
-  padding: 1em;
-  font-size: 1.5em;
-}/*# sourceMappingURL=contact.css.map */
-
-#content {
-    width: 55%;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for a cleaner look */
-    display: flex;
-    flex-direction: column; /* Makes child elements stack vertically */
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    color: #777;
-}
-
-.contact__info p {
-    margin-bottom: 15px; /* Spacing between contact items */
-}
-
-/* Resume download button styling */
-.resume__link {
     display: inline-block;
-    margin: 5px 10px;
-    padding: 10px 15px;
-    background-color: #777;
+    margin-right: 0.1em;
+}
+.icon, [class^=icon--] {
+    font-family: "FontAwesome";
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.social__icon, [class^=social__icon] {
+    font-size: 1.4em;
     color: white;
-    border-radius: 5px;
-    text-decoration: none; /* Ensures no underline */
-    transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
-}
-
-.resume__link:hover {
-    background-color: #d94f5c; /* Changes background on hover as requested */
-    color: white; /* Keeps text color white on hover */
-    text-decoration: none; /* Reinforce no underline on hover */
-}
-
-.resume__downloads {
-  display: flex;
-  justify-content: center; /* Centers the buttons horizontally */
-  flex-wrap: wrap; /* Allows wrapping if the screen is too small */
-}
-
-/* Styles for <p> tags */
-p {
-    transition: color 0.3s ease, font-size 0.3s ease; /* Smooth transition for hover effects */
-    font-size: 1.2em;
-}
-
-p:hover {
-    color: #d94f5c; /* Changes text color on hover */
-    font-size: 1.5em; /* Increases text size on hover */
-}
-
-#icons{
-    margin-top: 15px;
-}
+    text-decoration: none;

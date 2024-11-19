@@ -1,52 +1,43 @@
 #content {
-    width: 55%;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for a cleaner look */
-    display: flex;
-    flex-direction: column; /* Makes child elements stack vertically */
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
+	width: 55%;
+	padding: 20px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 0 auto;
 }
-
 #content div {
-    border-bottom: 2px solid rgba(255, 255, 255, 0.5); /* Light separator lines */
-    padding-bottom: 20px; /* Space below each div */
-    margin-bottom: 20px; /* Additional space below each div */
-    transition: border-color 0.3s, color 0.3s; /* Smooth transition for color and border */
+	border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+	transition: border-color 0.3s, color 0.3s;
 }
-
 #content div:not(:last-child) {
-    border-bottom: 2px solid #777; /* Adds a line between divs */
+	border-bottom: 2px solid #777;
 }
-
 #content div:hover {
-    border-color: #d94f5c; /* Changes border color on hover */
+	border-color: #d94f5c;
 }
-
 h1, h3 {
-    font-size: 2.5em; /* Larger size for main headings */
-    font-weight: bold;
-    margin-bottom: 0.5em; /* Adds space below the heading */
-    color: #777; /* Default text color */
-    transition: color 0.3s; /* Smooth transition for text color */
+	font-size: 2.5em;
+	font-weight: bold;
+	margin-bottom: 0.5em;
+	color: #777;
+	transition: color 0.3s;
 }
-
 h3 {
-    font-size: 1.2em; /* Smaller than H1 but clear */
+	font-size: 1.2em;
 }
-
-#content div:hover h1,
-#content div:hover h3 {
-    color: #d94f5c; /* Changes text color on hover */
+#content div:hover h1,#content div:hover h3 {
+	color: #d94f5c;
 }
-
 a {
-    text-decoration: none; /* Removes underline */
-    color: inherit; /* Keeps the link color consistent with the surrounding text */
+	text-decoration: none;
+	color: inherit;
 }
-
 a:hover, a:focus {
-    color: inherit; /* Prevents color change on hover and focus */
-    text-decoration: none; /* Ensures no underline or other decoration on hover/focus */
+	color: inherit;
+	text-decoration: none;
 }
