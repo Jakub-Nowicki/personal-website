@@ -31,6 +31,8 @@ def sudoku_solver():
 
 @app.route('/update', methods=['POST'])
 def update():
+    import time
+
     grid = [['' for _ in range(9)] for _ in range(9)]  # Recreate the grid
     values = []
     error = None
@@ -46,37 +48,59 @@ def update():
                 else:
                     grid[i][j] = 0
 
-        # Check if the puzzle is solvable
+        # Check if the grid is valid before attempting to solve
         if not is_valid_sudoku(grid):
-            error = "The puzzle has conflicts. Please check your inputs."
-
             # Convert zeros back to empty strings for display
             for i in range(9):
                 for j in range(9):
                     if grid[i][j] == 0:
                         grid[i][j] = ''
 
-            return render_template('sudoku_index.html', grid=grid, error=error)
+            return render_template('sudoku_index.html',
+                                   grid=grid,
+                                   error="The puzzle has conflicts. Please check your inputs.")
 
         # Create a copy of the grid for solving
         grid_copy = [row[:] for row in grid]
 
-        # Try to solve the puzzle
-        if solve(grid_copy):
-            return render_template('sudoku_update.html', grid=grid_copy, values=values)
-        else:
+        # Set a time limit for solving (in seconds)
+        start_time = time.time()
+        max_solve_time = 3  # Maximum 3 seconds to solve
+
+        # Try to solve with a call that has a timeout mechanism
+        solve_result = solve(grid_copy)
+
+        # Check if we've hit the time limit
+        if time.time() - start_time > max_solve_time or not solve_result:
             # Convert zeros back to empty strings for display
             for i in range(9):
                 for j in range(9):
                     if grid[i][j] == 0:
                         grid[i][j] = ''
-            error = "This puzzle cannot be solved. Please check your inputs."
-            return render_template('sudoku_index.html', grid=grid, error=error)
+
+            return render_template('sudoku_index.html',
+                                   grid=grid,
+                                   error="This puzzle appears to be unsolvable. Please check your inputs.")
+
+        # If we got here, the puzzle was solved successfully
+        return render_template('sudoku_update.html', grid=grid_copy, values=values)
 
     except Exception as e:
         # Handle any unexpected errors
-        error = f"An error occurred: {str(e)}"
-        return render_template('sudoku_index.html', grid=[['' for _ in range(9)] for _ in range(9)], error=error)
+        print(f"Error solving Sudoku: {str(e)}")
+
+        # Convert zeros back to empty strings for display (if grid exists)
+        try:
+            for i in range(9):
+                for j in range(9):
+                    if grid[i][j] == 0:
+                        grid[i][j] = ''
+        except:
+            grid = [['' for _ in range(9)] for _ in range(9)]
+
+        return render_template('sudoku_index.html',
+                               grid=grid,
+                               error=f"An error occurred while solving: {str(e)}")
 
 
 @app.route('/solve_grid', methods=['POST'])
