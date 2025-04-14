@@ -6,27 +6,41 @@
 
 {% block content %}
     <div id="content">
-
         <a href="{{ url_for('home.rps_page') }}">
-            <div id="rps">
+            <div class="project-card">
                 <h1>Rock Paper Scissors OpenCV Game</h1>
-                <h3>✊✋✌️ Play Rock-Paper-Scissors using hand gestures recognized by OpenCV and MediaPipe </h3>
+                <h3>Play Rock-Paper-Scissors using hand gestures recognized by computer vision technology</h3>
+                <div class="project-tech">
+                    <span class="tech-tag">OpenCV</span>
+                    <span class="tech-tag">MediaPipe</span>
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Computer Vision</span>
+                </div>
             </div>
         </a>
 
         <a href="{{ url_for('converter.system_converter') }}">
-            <div id="numeral">
+            <div class="project-card">
                 <h1>Numeral Base Converter</h1>
-                <h3>🔢 Convert numbers between different bases with a Flask-powered web interface  🧮</h3>
+                <h3>Convert numbers between different number systems with an intuitive web interface</h3>
+                <div class="project-tech">
+                    <span class="tech-tag">Flask</span>
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Number Theory</span>
+                </div>
             </div>
         </a>
 
         <a href="{{ url_for('sudoku.sudoku_solver') }}">
-            <div id="sudoku">
-                <h1>Sodoku Solver</h1>
-                <h3>🧩 A web app that dynamically solves and displays Sudoku puzzles using Flask ✏️</h3>
+            <div class="project-card">
+                <h1>Sudoku Solver</h1>
+                <h3>A web application that dynamically solves and displays Sudoku puzzles using backtracking algorithms</h3>
+                <div class="project-tech">
+                    <span class="tech-tag">Flask</span>
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Algorithms</span>
+                </div>
             </div>
         </a>
-
     </div>
 {% endblock %}

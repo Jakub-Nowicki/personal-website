@@ -1,43 +1,69 @@
 #content {
-  width: 55%;
-  margin: 0 auto;  /* centers #content itself */
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-  /* Remove the flex properties */
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center; */
+  width: 70%;
+  margin: 3vh auto;
+  padding: 0;
+  box-shadow: none;
 }
 
-#content a {
-  display: block;    /* Make each <a> fill the entire #content width */
-  width: 100%;
-  text-decoration: none;
-  color: inherit;
+.project-card {
+  background-color: #242529;
+  border-radius: 12px;
+  border-left: 4px solid #d94f5c;
+  padding: 25px;
+  margin-bottom: 28px;
+  transition: all 0.3s ease;
+  transform: translateY(0);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
-#content a div {
-  width: 100%;       /* Ensure the bordered div spans 100% */
-  border-bottom: 2px solid #777;
-  padding-bottom: 20px;
-  margin-bottom: 20px;
-  transition: border-color 0.3s, color 0.3s;
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  border-left-width: 8px;
 }
 
-/* Hover states, headings, etc. can stay the same */
-#content a div:hover {
-  border-color: #d94f5c;
-}
-
-h1, h3 {
-  margin-bottom: 0.5em;
-  color: #777;
-  transition: color 0.3s;
-}
-
-#content a div:hover h1,
-#content a div:hover h3 {
+.project-card h1 {
+  margin: 0 0 10px 0;
   color: #d94f5c;
+  font-size: 28px;
+}
+
+.project-card h3 {
+  margin: 0;
+  color: #aaa;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 1.6;
+}
+
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 15px;
+  gap: 8px;
+}
+
+.tech-tag {
+  background-color: #1c1d22;
+  color: #d94f5c;
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+/* Remove text underlines */
+#content a {
+  text-decoration: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #content {
+    width: 90%;
+  }
+
+  .project-card h1 {
+    font-size: 24px;
+  }
 }
