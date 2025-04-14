@@ -6,27 +6,123 @@
 
 {% block content %}
   <div class="converter-container">
-      <form action="/converter" method="post"> <!-- Open the form tag here -->
-          <div class="form-group">
-              <label for="num_dec">Decimal Number:</label>
-              <input type="text" id="num_dec" name="num_dec" value="{{ num_dec }}" placeholder="Enter decimal number">
+      <h2 class="converter-title">Numeral Base Converter</h2>
+
+      <div class="base-info">
+          Convert numbers between different numeral systems with ease. Select source and target bases, then enter your number.
+      </div>
+
+      <form action="/converter" method="post" id="converter-form">
+          <div class="bases-row">
+              <div class="form-group from-base">
+                  <label for="from_base">Convert from:</label>
+                  <select id="from_base" name="from_base">
+                      <option value="2" {% if from_base == 2 %} selected {% endif %}>Binary (2)</option>
+                      <option value="8" {% if from_base == 8 %} selected {% endif %}>Octal (8)</option>
+                      <option value="10" {% if from_base == 10 or not from_base %} selected {% endif %}>Decimal (10)</option>
+                      <option value="16" {% if from_base == 16 %} selected {% endif %}>Hexadecimal (16)</option>
+                      {% for i in range(3, 17) %}
+                          {% if i != 8 and i != 10 and i != 16 %}
+                          <option value="{{i}}" {% if from_base == i %} selected {% endif %}>Base-{{i}}</option>
+                          {% endif %}
+                      {% endfor %}
+                  </select>
+              </div>
+
+              <div class="swap-icon">
+                  <button type="button" id="swap-bases" title="Swap bases">⇄</button>
+              </div>
+
+              <div class="form-group to-base">
+                  <label for="to_base">Convert to:</label>
+                  <select id="to_base" name="to_base">
+                      <option value="2" {% if to_base == 2 %} selected {% endif %}>Binary (2)</option>
+                      <option value="8" {% if to_base == 8 %} selected {% endif %}>Octal (8)</option>
+                      <option value="10" {% if to_base == 10 or not to_base %} selected {% endif %}>Decimal (10)</option>
+                      <option value="16" {% if to_base == 16 %} selected {% endif %}>Hexadecimal (16)</option>
+                      {% for i in range(3, 17) %}
+                          {% if i != 8 and i != 10 and i != 16 %}
+                          <option value="{{i}}" {% if to_base == i %} selected {% endif %}>Base-{{i}}</option>
+                          {% endif %}
+                      {% endfor %}
+                  </select>
+              </div>
           </div>
 
           <div class="form-group">
-              <label for="num_base">Number in Base {{base}}</label>
-              <input type="text" id="num_base" name="num_base" value="{{ num_base }}" placeholder="Enter number in base">
+              <label for="input_number">Number to convert:</label>
+              <input type="text" id="input_number" name="input_number" value="{{ input_number }}"
+                     placeholder="Enter a number in base-{{ from_base|default(10) }}">
+              <div class="input-guide" id="input-guide">
+                  Valid characters: <span id="valid-chars">0-9</span>
+              </div>
           </div>
 
-          <div class="form-group base-select">
-              <label for="base">Base:</label>
-              <select id="base" name="base" value="{{base}}">
-                  {% for i in range(2, 17) %}
-                  <option value="{{i}}" {% if base == i %} selected {% endif %}>{{i}}</option>
-                  {% endfor %}
-              </select>
-          </div>
+          <button type="submit" class="convert-btn">Convert Number</button>
+      </form>
 
-          <button type="submit" class="convert-btn">Convert</button>
-      </form> <!-- Close the form tag here -->
+      {% if error %}
+      <div class="error-display">
+          {{ error }}
+      </div>
+      {% endif %}
+
+      {% if result %}
+      <div class="result-display">
+          <div class="result-title">Conversion Result</div>
+          <div class="result-value">
+              <div class="result-original">{{ input_number }} <small>(Base-{{ from_base }})</small></div>
+              <div class="result-equals">=</div>
+              <div class="result-converted">{{ result }} <small>(Base-{{ to_base }})</small></div>
+          </div>
+      </div>
+      {% endif %}
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fromBaseSelect = document.getElementById('from_base');
+        const toBaseSelect = document.getElementById('to_base');
+        const inputNumber = document.getElementById('input_number');
+        const validCharsSpan = document.getElementById('valid-chars');
+        const swapButton = document.getElementById('swap-bases');
+
+        // Function to update placeholder and valid characters display
+        function updateBaseInfo() {
+            const base = parseInt(fromBaseSelect.value);
+
+            // Update valid characters text
+            let validCharsText = '0-9';
+            if (base > 10) {
+                validCharsText = '0-9, A-' + String.fromCharCode(65 + base - 11);
+            } else if (base < 10) {
+                validCharsText = '0-' + (base - 1);
+            }
+            validCharsSpan.textContent = validCharsText;
+
+            // Update input placeholder
+            inputNumber.placeholder = 'Enter a number in base-' + base;
+        }
+
+        // Initial setup
+        updateBaseInfo();
+
+        // Set up event listeners
+        fromBaseSelect.addEventListener('change', updateBaseInfo);
+
+        swapButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Swap the base values
+            const tempBase = fromBaseSelect.value;
+            fromBaseSelect.value = toBaseSelect.value;
+            toBaseSelect.value = tempBase;
+
+            // Update the display with new from-base
+            updateBaseInfo();
+
+            // Clear input as it may not be valid in the new base
+            inputNumber.value = '';
+        });
+    });
+  </script>
 {% endblock %}
