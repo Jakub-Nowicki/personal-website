@@ -1,26 +1,109 @@
-{% extends "base.html"  %}
+{% extends "base.html" %}
 
 {% block link_css %}
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/sudoku_index.css')}}">
 {% endblock %}
 
 {% block content %}
-    <div id="content">
-        <form action="/update" method="post">
-            <div class="sudoku-container">
-                <table>
-                    {% for i in range(9) %}
-                    <tr>
-                        {% for j in range(9) %}
-                        <td>
-                            <input type="text" name="cell-{{i}}-{{j}}" value="{{ grid[i][j]}}" >
-                        </td>
-                        {% endfor %}
-                    </tr>
+    <div class="sudoku-container">
+        <h1 class="sudoku-title">Sudoku Solver</h1>
+
+        <p class="sudoku-description">
+            Enter your Sudoku puzzle below and click "Solve" to find the solution.
+            Leave empty cells blank and our algorithm will fill them in.
+        </p>
+
+        {% if error %}
+        <div class="error-message">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form action="/update" method="post" id="sudoku-form">
+            <table id="sudoku-grid">
+                {% for i in range(9) %}
+                <tr>
+                    {% for j in range(9) %}
+                    <td>
+                        <input type="text"
+                               name="cell-{{i}}-{{j}}"
+                               id="cell-{{i}}-{{j}}"
+                               value="{{ grid[i][j]}}"
+                               maxlength="1"
+                               pattern="[1-9]"
+                               class="user-input"
+                               autocomplete="off">
+                    </td>
                     {% endfor %}
-                </table>
-                <button type="submit">Solve</button>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <div class="button-container">
+                <button type="button" id="clear-btn" class="clear-btn">Clear Board</button>
+                <button type="submit" id="solve-btn">Solve Puzzle</button>
             </div>
         </form>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cells = document.querySelectorAll('input[type="text"]');
+            const clearBtn = document.getElementById('clear-btn');
+
+            // Validate input (only 1-9)
+            cells.forEach(cell => {
+                cell.addEventListener('input', function() {
+                    if (this.value && !/^[1-9]$/.test(this.value)) {
+                        this.value = '';
+                    }
+                });
+
+                // Allow keyboard navigation between cells
+                cell.addEventListener('keydown', function(e) {
+                    const currentPosition = cell.id.match(/cell-(\d+)-(\d+)/);
+                    if (!currentPosition) return;
+
+                    const row = parseInt(currentPosition[1]);
+                    const col = parseInt(currentPosition[2]);
+
+                    let newRow = row;
+                    let newCol = col;
+
+                    // Arrow key navigation
+                    switch(e.key) {
+                        case 'ArrowUp':
+                            newRow = Math.max(0, row - 1);
+                            break;
+                        case 'ArrowDown':
+                            newRow = Math.min(8, row + 1);
+                            break;
+                        case 'ArrowLeft':
+                            newCol = Math.max(0, col - 1);
+                            break;
+                        case 'ArrowRight':
+                            newCol = Math.min(8, col + 1);
+                            break;
+                    }
+
+                    // Move to the new cell
+                    if (newRow !== row || newCol !== col) {
+                        const nextCell = document.getElementById(`cell-${newRow}-${newCol}`);
+                        if (nextCell) {
+                            nextCell.focus();
+                        }
+                    }
+                });
+            });
+
+            // Clear board button
+            clearBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to clear the entire board?')) {
+                    cells.forEach(cell => {
+                        cell.value = '';
+                    });
+                }
+            });
+        });
+    </script>
 {% endblock %}

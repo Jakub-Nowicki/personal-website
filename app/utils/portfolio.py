@@ -22,68 +22,99 @@ def projects_page():
 def contact_page():
     return render_template('contact.html')
 
+
 @app.route('/sudoku')
 def sudoku_solver():
     grid = [['' for _ in range(9)] for _ in range(9)]  # Local variable
     return render_template('sudoku_index.html', grid=grid)
 
+
 @app.route('/update', methods=['POST'])
 def update():
     grid = [['' for _ in range(9)] for _ in range(9)]  # Recreate the grid
     values = []
-    for i in range(9):
-        for j in range(9):
-            cell_value = request.form.get(f'cell-{i}-{j}', '')
-            grid[i][j] = int(cell_value) if cell_value.isdigit() else 0
-            if cell_value:
-                values.append((i, j))
-    solve(grid)  # Solving the grid
-    return render_template('sudoku_update.html', grid=grid, values=values)
+    error = None
+
+    try:
+        # Parse input values
+        for i in range(9):
+            for j in range(9):
+                cell_value = request.form.get(f'cell-{i}-{j}', '').strip()
+                if cell_value and cell_value.isdigit() and 1 <= int(cell_value) <= 9:
+                    grid[i][j] = int(cell_value)
+                    values.append((i, j))
+                else:
+                    grid[i][j] = 0
+
+        # Check if the puzzle is solvable
+        if not is_valid_sudoku(grid):
+            error = "The puzzle has conflicts. Please check your inputs."
+
+            # Convert zeros back to empty strings for display
+            for i in range(9):
+                for j in range(9):
+                    if grid[i][j] == 0:
+                        grid[i][j] = ''
+
+            return render_template('sudoku_index.html', grid=grid, error=error)
+
+        # Create a copy of the grid for solving
+        grid_copy = [row[:] for row in grid]
+
+        # Try to solve the puzzle
+        if solve(grid_copy):
+            return render_template('sudoku_update.html', grid=grid_copy, values=values)
+        else:
+            # Convert zeros back to empty strings for display
+            for i in range(9):
+                for j in range(9):
+                    if grid[i][j] == 0:
+                        grid[i][j] = ''
+            error = "This puzzle cannot be solved. Please check your inputs."
+            return render_template('sudoku_index.html', grid=grid, error=error)
+
+    except Exception as e:
+        # Handle any unexpected errors
+        error = f"An error occurred: {str(e)}"
+        return render_template('sudoku_index.html', grid=[['' for _ in range(9)] for _ in range(9)], error=error)
 
 
-@app.route('/solve_grid', methods =['POST'])
+@app.route('/solve_grid', methods=['POST'])
 def solve_grid():
     return redirect(url_for('sudoku_solver'))
 
 
-@app.route('/converter', methods=['POST', 'GET'])
-def system_converter():
-    # Default values
-    input_number = ""
-    result = ""
-    from_base = 10
-    to_base = 2
-    error = None
+# Helper function to validate the initial Sudoku state
+def is_valid_sudoku(board):
+    # Check rows
+    for row in board:
+        seen = set()
+        for cell in row:
+            if cell != 0 and cell in seen:
+                return False
+            if cell != 0:
+                seen.add(cell)
 
-    if request.method == 'POST':
-        try:
-            input_number = request.form.get('input_number', '').strip()
-            from_base_input = request.form.get('from_base', '10')
-            to_base_input = request.form.get('to_base', '2')
+    # Check columns
+    for col in range(9):
+        seen = set()
+        for row in range(9):
+            cell = board[row][col]
+            if cell != 0 and cell in seen:
+                return False
+            if cell != 0:
+                seen.add(cell)
 
-            # Validate bases
-            if not from_base_input.isdigit() or not to_base_input.isdigit():
-                error = "Base must be a number."
-            else:
-                from_base = int(from_base_input)
-                to_base = int(to_base_input)
+    # Check 3x3 boxes
+    for box_row in range(0, 9, 3):
+        for box_col in range(0, 9, 3):
+            seen = set()
+            for i in range(3):
+                for j in range(3):
+                    cell = board[box_row + i][box_col + j]
+                    if cell != 0 and cell in seen:
+                        return False
+                    if cell != 0:
+                        seen.add(cell)
 
-                if not (2 <= from_base <= 16) or not (2 <= to_base <= 16):
-                    error = "Base must be between 2 and 16."
-                elif not input_number:
-                    error = "Please enter a number to convert."
-                else:
-                    try:
-                        # Perform the conversion
-                        result = convert_between_bases(input_number, from_base, to_base)
-                    except ValueError as e:
-                        error = str(e)
-        except Exception as e:
-            error = f"An error occurred: {str(e)}"
-
-    return render_template('converter.html',
-                           input_number=input_number,
-                           result=result,
-                           from_base=from_base,
-                           to_base=to_base,
-                           error=error)
+    return True

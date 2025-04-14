@@ -1,26 +1,56 @@
-{% extends "base.html"  %}
+{% extends "base.html" %}
 
 {% block link_css %}
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/sudoku_index.css')}}">
 {% endblock %}
 
 {% block content %}
-    <div id="content">
+    <div class="sudoku-container">
+        <h1 class="sudoku-title">Sudoku Solution</h1>
+
+        <p class="sudoku-description">
+            The solution has been found! Original numbers are shown in white,
+            and the solved numbers are shown in red.
+        </p>
+
         <form action="/solve_grid" method="post">
-                <div class="sudoku-container">
-                    <table>
-                        {% for i in range(9) %}
-                        <tr>
-                            {% for j in range(9) %}
-                            <td>
-                                <input type="text" name="cell-{{i}}-{{j}}" value="{{ grid[i][j] }}" {% if (i, j) in values %}style="color: white;"{% else %}style="color: #ED2939;"{% endif %}>
-                            </td>
-                            {% endfor %}
-                        </tr>
-                        {% endfor %}
-                    </table>
-                    <button type="submit">Reset</button>
-                </div>
+            <table>
+                {% for i in range(9) %}
+                <tr>
+                    {% for j in range(9) %}
+                    <td>
+                        <input type="text"
+                               name="cell-{{i}}-{{j}}"
+                               value="{{ grid[i][j] }}"
+                               {% if (i, j) in values %}
+                                   class="user-input"
+                               {% else %}
+                                   class="solved-cell solved-animation"
+                               {% endif %}
+                               readonly>
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+
+            <div class="button-container">
+                <button type="submit">Start New Puzzle</button>
+            </div>
         </form>
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animation sequence for solution cells
+        const solvedCells = document.querySelectorAll('.solved-cell');
+
+        // Apply a delayed animation to each solved cell
+        solvedCells.forEach((cell, index) => {
+            setTimeout(() => {
+                cell.style.opacity = '1';
+            }, 50 * index);
+        });
+    });
+    </script>
 {% endblock %}
