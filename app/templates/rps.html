@@ -6,11 +6,36 @@
 
 {% block content %}
     <div id="content">
-        <p>Images of the app: </p>
-        <img src="{{ url_for('static', filename='files/sc_1.png') }}" alt="Rock" class="rps-image">
-        <img src="{{ url_for('static', filename='files/sc_2.png') }}" alt="Paper" class="rps-image">
-        <img src="{{ url_for('static', filename='files/sc_3.png') }}" alt="Scissors" class="rps-image">
+        <h1 class="rps-title">Rock Paper Scissors OpenCV Game</h1>
 
+        <p class="rps-description">
+            A computer vision game that uses hand gesture recognition to play Rock-Paper-Scissors.
+            Built with OpenCV and MediaPipe for real-time hand tracking and gesture classification.
+        </p>
 
+        <div class="rps-gallery">
+            <div class="rps-image-container">
+                <div class="rps-caption">Rock Gesture</div>
+                <img src="{{ url_for('static', filename='files/sc_1.png') }}" alt="Rock" class="rps-image">
+            </div>
+
+            <div class="rps-image-container">
+                <div class="rps-caption">Paper Gesture</div>
+                <img src="{{ url_for('static', filename='files/sc_2.png') }}" alt="Paper" class="rps-image">
+            </div>
+
+            <div class="rps-image-container">
+                <div class="rps-caption">Scissors Gesture</div>
+                <img src="{{ url_for('static', filename='files/sc_3.png') }}" alt="Scissors" class="rps-image">
+            </div>
+        </div>
+
+        <div class="rps-tech">
+            <span class="tech-tag">OpenCV</span>
+            <span class="tech-tag">MediaPipe</span>
+            <span class="tech-tag">Computer Vision</span>
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">Hand Tracking</span>
+        </div>
     </div>
 {% endblock %}

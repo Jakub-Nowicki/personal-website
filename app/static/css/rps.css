@@ -1,19 +1,101 @@
 #content {
-	width: 55%;
-	padding: 20px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	margin: 0 auto;
-	color: #777;
+    width: 80%;
+    max-width: 1000px;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1vh auto;
+    color: #777;
+    background-color: #242529;
+    border-radius: 12px;
 }
+
+.rps-title {
+    color: #d94f5c;
+    font-size: 32px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.rps-description {
+    color: #aaa;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    text-align: center;
+    max-width: 700px;
+}
+
+.rps-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    width: 100%;
+}
+
+.rps-image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #1c1d22;
+    border-radius: 10px;
+    padding: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.rps-image-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.rps-caption {
+    color: #d94f5c;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
 .rps-image {
-	width: 90%;
-	padding: 10px;
-	box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    object-fit: contain;
+    max-height: 300px;
 }
-p {
-	font-size: 36px;
+
+.rps-tech {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 40px;
+    gap: 15px;
+}
+
+.tech-tag {
+    background-color: #1c1d22;
+    color: #d94f5c;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    #content {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .rps-gallery {
+        grid-template-columns: 1fr;
+    }
+
+    .rps-title {
+        font-size: 28px;
+    }
 }
