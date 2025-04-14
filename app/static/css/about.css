@@ -1,57 +1,125 @@
-#body {
-	color: #777;
-}
 #content {
-	width: 55%;
-	padding: 20px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	margin: 0 auto;
+  width: 70%;
+  max-width: 900px;
+  margin: 3vh auto;
+  padding: 40px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  background-color: #242529;
+  border-radius: 12px;
 }
+
+.profile {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
 .profile h1 {
-	color: #d94f5c;
-	font-size: 28px;
-	margin-bottom: 0;
+  color: #d94f5c;
+  font-size: 36px;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
 }
+
 .profile .subtitle {
-	color: #777;
-	font-size: 18px;
-	margin-top: 0;
+  color: #aaa;
+  font-size: 18px;
+  margin-top: 0;
+  letter-spacing: 1px;
 }
+
 .profile p {
-	color: #777;
-	line-height: 1.6;
-	font-size: 1.2em;
-	transition: color 0.3s ease, font-size 0.3s ease;
+  color: #aaa;
+  line-height: 1.8;
+  font-size: 16px;
+  margin: 0;
 }
-.profile ul {
-	list-style-type: none;
-	padding: 0;
+
+.section {
+  margin-bottom: 10px;
 }
-.profile li {
-	margin-bottom: 10px;
-	line-height: 1.6;
-	color: #777;
+
+.section-title {
+  color: #d94f5c;
+  font-size: 22px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
 }
-.profile li strong {
-	color: #d94f5c;
+
+.section-title:after {
+  content: "";
+  flex-grow: 1;
+  height: 1px;
+  background-color: #444;
+  margin-left: 15px;
 }
-.profile strong {
-	color: #d94f5c;
+
+.skill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
 }
-.profile h2 {
-	color: #d94f5c;
-	font-size: 22px;
-	padding-bottom: 5px;
-	margin-top: 20px;
-	margin-bottom: 10px;
+
+.skill-item {
+  background-color: #1c1d22;
+  padding: 12px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-.line {
-	width: 100%;
-	border-bottom: 1px solid #d94f5c;
-	margin-bottom: 20px;
-	margin-top: 20px;
+
+.skill-item strong {
+  color: #d94f5c;
+  display: block;
+  margin-bottom: 5px;
+  font-size: 15px;
+}
+
+.skill-item span {
+  color: #aaa;
+  font-size: 14px;
+}
+
+.language-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.language-item strong {
+  color: #d94f5c;
+  width: 80px;
+}
+
+.language-item .level {
+  flex-grow: 1;
+  height: 8px;
+  background-color: #333;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.language-item .level-fill {
+  height: 100%;
+  background-color: #d94f5c;
+}
+
+.about-text {
+  line-height: 1.8;
+}
+
+@media (max-width: 768px) {
+  #content {
+    width: 90%;
+    padding: 25px;
+  }
+
+  .skill-grid {
+    grid-template-columns: 1fr;
+  }
 }
