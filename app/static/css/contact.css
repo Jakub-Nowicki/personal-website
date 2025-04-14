@@ -1,59 +1,184 @@
-@import url(https: //maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
-.icon--googleplus::before {
-    content: "\f0d5";
+#content {
+  width: 70%;
+  max-width: 900px;
+  margin: 2vh auto;
+  padding: 40px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  background-color: #242529;
+  border-radius: 12px;
+  color: #aaa;
 }
-.social__icon--googleplus {
-    background-color: #fa5432;
+
+.contact-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
 }
-.social__icon--googleplus:hover {
-    background-color: #d5472b;
+
+.section {
+  margin-bottom: 20px;
 }
-.icon--instagram::before {
-    content: "\f16d";
+
+.section-title {
+  color: #d94f5c;
+  font-size: 22px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
 }
-.social__icon--instagram {
-    background-color: #6291b2;
+
+.section-title:after {
+  content: "";
+  flex-grow: 1;
+  height: 1px;
+  background-color: #444;
+  margin-left: 15px;
 }
-.social__icon--instagram:hover {
-    background-color: #537b97;
+
+.contact-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
 }
-.icon--linkedin::before {
-    content: "\f0e1";
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background-color: #1c1d22;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.social__icon--linkedin {
-    background-color: #0087be;
+
+.contact-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
-.social__icon--linkedin:hover {
-    background-color: #0073a2;
+
+.contact-icon {
+  width: 40px;
+  height: 40px;
+  background-color: #d94f5c;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px;
+  flex-shrink: 0;
 }
-.icon--github::before {
-    content: "\f113";
+
+.contact-icon i {
+  color: white;
+  font-size: 18px;
 }
-.social__icon--github {
-    background-color: #333333;
+
+.contact-details {
+  flex-grow: 1;
+  overflow: hidden;
 }
-.social__icon--github:hover {
-    background-color: #2b2b2b;
+
+.contact-label {
+  font-size: 14px;
+  opacity: 0.7;
+  margin-bottom: 3px;
 }
-*, *::before, *::after {
-    box-sizing: border-box;
+
+.contact-value {
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.social__item {
-    display: inline-block;
-    margin-right: 0.1em;
+
+.resume-download {
+  margin-bottom: 30px;
 }
-.icon, [class^=icon--] {
-    font-family: "FontAwesome";
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+
+.resume-buttons {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
 }
-.social__icon, [class^=social__icon] {
-    font-size: 1.4em;
-    color: white;
-    text-decoration: none;
+
+.resume-link {
+  display: inline-flex;
+  align-items: center;
+  background-color: #1c1d22;
+  color: #aaa;
+  text-decoration: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border: 1px solid #444;
+}
+
+.resume-link:hover {
+  background-color: #d94f5c;
+  color: white;
+  border-color: #d94f5c;
+}
+
+.resume-link i {
+  margin-right: 10px;
+}
+
+.social-section {
+  text-align: center;
+}
+
+.social-grid {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.social-item {
+  display: inline-block;
+}
+
+.social-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  color: white;
+  text-decoration: none;
+  font-size: 24px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.social-link:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.github {
+  background-color: #333333;
+}
+
+.instagram {
+  background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+}
+
+.linkedin {
+  background-color: #0077b5;
+}
+
+@media (max-width: 768px) {
+  #content {
+    width: 90%;
+    padding: 25px;
+  }
+  
+  .contact-info {
+    grid-template-columns: 1fr;
+  }
+  
+  .resume-buttons {
+    flex-direction: column;
+  }
+}

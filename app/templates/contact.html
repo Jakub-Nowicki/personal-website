@@ -2,35 +2,86 @@
 
 {% block link_css %}
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/contact.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 {% endblock %}
 
 {% block content %}
     <div id="content">
-<div class="contact__info">
-        <p>Email: jjnowicki24@gmail.com</p>
-        <p>WhatsApp: +48 785 85 20 20</p>
-        <p>Phone: +1 (812) 456 6534</p>
-    </div>
+        <div class="contact-container">
+            <!-- Contact Information Section -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-address-card"></i> Contact Information</h2>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <div class="contact-label">Email</div>
+                            <div class="contact-value">jjnowicki24@gmail.com</div>
+                        </div>
+                    </div>
+                </div>
 
-    <!-- Resume Downloads -->
-    <div class="resume__downloads">
-        <a href="{{ url_for('static', filename='files/Jakub_Nowicki_Resume.docx') }}" class="resume__link" download>Download Resume (DOCX)</a>
-        <a href="{{ url_for('static', filename='files/Jakub_Nowicki_Resume.pdf') }}" class="resume__link" download>Download Resume (PDF)</a>
-    </div>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div class="contact-details">
+                            <div class="contact-label">WhatsApp</div>
+                            <div class="contact-value">+48 785 85 20 20</div>
+                        </div>
+                    </div>
 
-        <div id="icons">
-            <div class="social__item">
-                <a target="_blank" href="https://github.com/Jakub-Nowicki?tab=repositories" class="social__icon--github"><i class="icon--github"></i></a>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <div class="contact-label">Phone</div>
+                            <div class="contact-value">+1 (812) 456 6534</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="social__item">
-                <a target="_blank" href="https://www.instagram.com/nowickii.j/" class="social__icon--instagram"><i class="icon--instagram"></i></a>
+            <!-- Resume Downloads Section -->
+            <div class="section resume-download">
+                <h2 class="section-title"><i class="fas fa-file-alt"></i> Resume</h2>
+                <div class="resume-buttons">
+                    <a href="{{ url_for('static', filename='files/Jakub_Nowicki_Resume.docx') }}" class="resume-link" download>
+                        <i class="fas fa-file-word"></i> Download Resume (DOCX)
+                    </a>
+                    <a href="{{ url_for('static', filename='files/Jakub_Nowicki_Resume.pdf') }}" class="resume-link" download>
+                        <i class="fas fa-file-pdf"></i> Download Resume (PDF)
+                    </a>
+                </div>
             </div>
 
-            <div class="social__item">
-                <a target="_blank" href="https://www.linkedin.com/in/jakub-nowicki13/" class="social__icon--linkedin"><i class="icon--linkedin"></i></a>
+            <!-- Social Media Section -->
+            <div class="section social-section">
+                <h2 class="section-title"><i class="fas fa-share-alt"></i> Connect With Me</h2>
+                <div class="social-grid">
+                    <div class="social-item">
+                        <a href="https://github.com/Jakub-Nowicki?tab=repositories" target="_blank" class="social-link github">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+
+                    <div class="social-item">
+                        <a href="https://www.instagram.com/nowickii.j/" target="_blank" class="social-link instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+
+                    <div class="social-item">
+                        <a href="https://www.linkedin.com/in/jakub-nowicki13/" target="_blank" class="social-link linkedin">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
-
     </div>
 {% endblock %}
