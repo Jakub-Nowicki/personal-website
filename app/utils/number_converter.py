@@ -133,20 +133,6 @@ def convert_from_decimal(decimal_str, base):
 
 
 def convert_between_bases(number_str, from_base, to_base):
-    """
-    Convert a number from one base to another.
-
-    Args:
-        number_str (str): The number to convert
-        from_base (int): The base of the input number
-        to_base (int): The base to convert to
-
-    Returns:
-        str: The number in the target base
-
-    Raises:
-        ValueError: If the input is invalid or bases are out of range
-    """
     # Validate bases
     if not 2 <= from_base <= 16:
         raise ValueError(f"Source base must be between 2 and 16, got {from_base}")
