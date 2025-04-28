@@ -1,235 +1,166 @@
 from flask import Blueprint, jsonify, current_app, request
 import requests
 from datetime import datetime, timedelta
-import re
 import json
+import os
 from functools import lru_cache
 
 # Create a blueprint for GitHub API routes
 github_bp = Blueprint('github', __name__)
 
+# Try to load token from environment variables first (most secure)
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", None)
 
-# Use LRU cache to reduce API calls to GitHub (cache for 6 hours)
-@lru_cache(maxsize=10)
-def fetch_github_profile(username):
-    """Fetch and cache GitHub profile page"""
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-    }
-    response = requests.get(f'https://github.com/{username}', headers=headers)
-    return response.text, response.status_code
-
-
-@github_bp.route('/api/github-contributions/<username>')
-def get_github_contributions(username):
-    """
-    Fetch GitHub contribution data for a user.
-    This endpoint tries multiple methods to extract contribution data.
-    """
+# If not in environment, try to load from config file
+if GITHUB_TOKEN is None:
     try:
-        debug_mode = request.args.get('debug', '').lower() == 'true'
-        html_content, status_code = fetch_github_profile(username)
+        # Import the config file (which should not be in version control)
+        from ..config.github_config import GITHUB_TOKEN as CONFIG_TOKEN
 
-        if status_code != 200:
-            return jsonify({'error': f'Failed to fetch GitHub profile: HTTP {status_code}'}), 404
-
-        # Try multiple methods to extract contribution data
-        methods = [
-            extract_contributions_from_svg,
-            extract_contributions_from_js_data,
-            extract_contributions_fallback
-        ]
-
-        debug_info = {} if debug_mode else None
-
-        for method_index, method in enumerate(methods):
-            try:
-                result = method(html_content, username, debug_info)
-                if result and 'contributions' in result and result['contributions']:
-                    # Add debug info if requested
-                    if debug_mode:
-                        result['debug'] = {
-                            'method_used': method.__name__,
-                            'method_index': method_index,
-                            'extraction_info': debug_info
-                        }
-                    return jsonify(result)
-            except Exception as e:
-                if debug_mode:
-                    if 'extraction_errors' not in debug_info:
-                        debug_info['extraction_errors'] = []
-                    debug_info['extraction_errors'].append({
-                        'method': method.__name__,
-                        'error': str(e)
-                    })
-                current_app.logger.warning(f"Method {method.__name__} failed: {str(e)}")
-                continue
-
-        # If we get here, all methods failed
-        error_response = {'error': 'Could not extract contribution data using any method'}
-        if debug_mode:
-            error_response['debug'] = debug_info
-
-        return jsonify(error_response), 404
-
+        GITHUB_TOKEN = CONFIG_TOKEN
+    except ImportError:
+        current_app.logger.warning("GitHub config file not found. Please create app/config/github_config.py")
+        GITHUB_TOKEN = None
     except Exception as e:
-        current_app.logger.error(f"Error fetching GitHub data: {str(e)}")
-        return jsonify({'error': str(e)}), 500
+        current_app.logger.error(f"Error loading GitHub token from config: {str(e)}")
+        GITHUB_TOKEN = None
+
+# GitHub API URLs
+GITHUB_API_URL = "https://api.github.com"
+GITHUB_GRAPHQL_URL = "https://api.github.com/graphql"
 
 
-def extract_contributions_from_svg(html_content, username, debug_info=None):
-    """Try to extract contribution data from SVG elements in the page"""
-    if debug_info is not None:
-        debug_info['svg_method'] = {}
+@lru_cache(maxsize=10)
+def fetch_github_contributions(username, days=365):
+    """
+    Fetch GitHub contribution data using the GitHub GraphQL API
 
-    # Try different patterns to find contribution data in SVG
-    patterns = [
-        r'<rect[^>]*data-date="([^"]+)"[^>]*data-level="([^"]+)"[^>]*>',
-        r'<rect[^>]*data-date="([^"]+)"[^>]*data-count="([^"]+)"[^>]*>',
-        r'<td[^>]*data-date="([^"]+)"[^>]*data-level="([^"]+)"[^>]*>'
-    ]
+    Args:
+        username: GitHub username
+        days: Number of days of history to fetch (default 365)
 
-    contributions_raw = []
-    matched_pattern = None
-
-    for pattern_index, pattern in enumerate(patterns):
-        matches = re.findall(pattern, html_content)
-        if matches:
-            matched_pattern = pattern
-            for date, level_or_count in matches:
-                try:
-                    # Convert level string to int, handling both numeric and non-numeric levels
-                    if level_or_count.isdigit():
-                        level = int(level_or_count)
-                    else:
-                        # Map non-numeric levels to numeric values (0-4)
-                        level_map = {'NONE': 0, 'FIRST_QUARTILE': 1, 'SECOND_QUARTILE': 2,
-                                     'THIRD_QUARTILE': 3, 'FOURTH_QUARTILE': 4}
-                        level = level_map.get(level_or_count, 0)
-
-                    contributions_raw.append([date, level])
-                except ValueError:
-                    continue
-
-            if contributions_raw:
-                if debug_info is not None:
-                    debug_info['svg_method'].update({
-                        'matched_pattern_index': pattern_index,
-                        'matched_pattern': pattern,
-                        'found_items': len(contributions_raw)
-                    })
-                break
-
-    if not contributions_raw:
-        if debug_info is not None:
-            debug_info['svg_method']['error'] = 'No contribution data found with any pattern'
+    Returns:
+        Processed contribution data or None if fetching fails
+    """
+    if not GITHUB_TOKEN:
+        current_app.logger.error("GitHub token not configured. See setup instructions.")
         return None
 
-    return process_contributions(contributions_raw)
+    try:
+        # Calculate date range
+        end_date = datetime.now()
+        start_date = end_date - timedelta(days=days)
+
+        # Format dates for GraphQL query
+        from_date = start_date.strftime("%Y-%m-%dT00:00:00Z")
+        to_date = end_date.strftime("%Y-%m-%dT00:00:00Z")
+
+        # GraphQL query to get contribution calendar
+        query = """
+        {
+          user(login: "%s") {
+            contributionsCollection(from: "%s", to: "%s") {
+              contributionCalendar {
+                totalContributions
+                weeks {
+                  contributionDays {
+                    contributionCount
+                    date
+                    weekday
+                  }
+                }
+              }
+            }
+          }
+        }
+        """ % (username, from_date, to_date)
+
+        # Set up the request headers with the token
+        headers = {
+            "Authorization": f"Bearer {GITHUB_TOKEN}",
+            "Content-Type": "application/json"
+        }
+
+        # Make the API request
+        response = requests.post(
+            GITHUB_GRAPHQL_URL,
+            json={"query": query},
+            headers=headers,
+            timeout=10
+        )
+
+        # Check if the request was successful
+        if response.status_code != 200:
+            current_app.logger.error(f"GitHub API error: {response.status_code} - {response.text}")
+            return None
+
+        # Parse the response
+        data = response.json()
+
+        # Check if we got valid data
+        if "errors" in data:
+            current_app.logger.error(f"GraphQL errors: {data['errors']}")
+            return None
+
+        if not data.get("data") or not data["data"].get("user"):
+            current_app.logger.error(f"No user data returned: {data}")
+            return None
+
+        # Extract the contribution data
+        contribution_data = data["data"]["user"]["contributionsCollection"]["contributionCalendar"]
+        total = contribution_data["totalContributions"]
+        weeks_data = contribution_data["weeks"]
+
+        # Process the data into our expected format
+        processed_data = process_contribution_data(weeks_data)
+
+        return {
+            "totalContributions": total,
+            "contributions": processed_data
+        }
+
+    except Exception as e:
+        current_app.logger.error(f"Error fetching GitHub contributions: {str(e)}")
+        return None
 
 
-def extract_contributions_from_js_data(html_content, username, debug_info=None):
-    """Try to extract contribution data from JavaScript data structures in the page"""
-    if debug_info is not None:
-        debug_info['js_data_method'] = {}
+def process_contribution_data(weeks_data):
+    """
+    Process the raw GitHub API response into the format our frontend expects
 
-    # Look for the contributionsCalendar data structure
-    js_data_patterns = [
-        r'data-color-explanations="([^"]+)"',  # Embedded color data
-        r'"contributionCalendar":({[^}]+})',  # Newer format
-        r'"contributionsCalendar":({[^}]+})',  # Older format
-        r'({\s*"totalContributions":[^}]+})'  # Alternative format
-    ]
+    Args:
+        weeks_data: List of week objects from GitHub API
 
-    for pattern_index, pattern in enumerate(js_data_patterns):
-        matches = re.search(pattern, html_content)
-        if matches:
-            try:
-                data_str = matches.group(1)
+    Returns:
+        List of weeks, each containing 7 contribution levels (0-4)
+    """
+    processed_weeks = []
 
-                # Handle HTML-escaped quotes
-                data_str = data_str.replace('&quot;', '"')
+    for week in weeks_data:
+        week_contributions = []
+        days = week["contributionDays"]
 
-                # Try to parse as JSON
-                try:
-                    data = json.loads(data_str)
-                except json.JSONDecodeError:
-                    # If direct parsing fails, try to fix common issues
-                    data_str = data_str.replace("'", '"')
-                    data = json.loads(data_str)
+        # Create a placeholder for all 7 days of the week
+        day_map = {i: 0 for i in range(7)}
 
-                if debug_info is not None:
-                    debug_info['js_data_method'].update({
-                        'matched_pattern_index': pattern_index,
-                        'data_sample': str(data)[:100] + '...'
-                    })
+        # Fill in the actual contributions
+        for day in days:
+            # GitHub API uses 0-6 for Sunday-Saturday
+            # We need to map this to 0-6 for Monday-Sunday
+            weekday = (day["weekday"] + 1) % 7
+            count = day["contributionCount"]
 
-                # Extract contribution data from the parsed structure
-                # Format will depend on the specific structure found
-                contributions_raw = []
+            # Convert counts to levels (0-4)
+            level = count_to_level(count)
+            day_map[weekday] = level
 
-                # Handle different possible data structures
-                if isinstance(data, dict):
-                    if 'weeks' in data:
-                        # Process calendar weeks format
-                        for week in data['weeks']:
-                            for day in week.get('contributionDays', []):
-                                date = day.get('date')
-                                count = day.get('contributionCount', 0)
-                                if date:
-                                    # Convert count to level (0-4)
-                                    level = count_to_level(count)
-                                    contributions_raw.append([date, level])
-                    elif 'contributionDays' in data:
-                        # Process flat list of days
-                        for day in data.get('contributionDays', []):
-                            date = day.get('date')
-                            count = day.get('contributionCount', 0)
-                            if date:
-                                level = count_to_level(count)
-                                contributions_raw.append([date, level])
+        # Create a list of contribution levels for each day of the week
+        for i in range(7):
+            week_contributions.append(day_map[i])
 
-                if contributions_raw:
-                    return process_contributions(contributions_raw)
+        processed_weeks.append(week_contributions)
 
-            except Exception as e:
-                if debug_info is not None:
-                    debug_info['js_data_method']['error'] = f'Error parsing JS data: {str(e)}'
-
-    if debug_info is not None:
-        debug_info['js_data_method']['error'] = 'No valid JS data found'
-
-    return None
-
-
-def extract_contributions_fallback(html_content, username, debug_info=None):
-    """Fallback method: fetch contribution data from a different source"""
-    if debug_info is not None:
-        debug_info['fallback_method'] = {}
-
-    # Try to find any data that might indicate contribution activity
-    # This is our last resort when other methods fail
-    contribution_indicators = re.findall(r'(\d+) contribution', html_content)
-
-    if contribution_indicators:
-        # If we can find contribution counts but not the full data,
-        # generate synthetic data based on the counts
-        total_contributions = max(int(count) for count in contribution_indicators)
-
-        if debug_info is not None:
-            debug_info['fallback_method'].update({
-                'found_indicators': contribution_indicators,
-                'estimated_total': total_contributions
-            })
-
-        # Generate synthetic data (distribute evenly across last year)
-        synthetic_data = generate_synthetic_data(total_contributions)
-        return synthetic_data
-
-    if debug_info is not None:
-        debug_info['fallback_method']['error'] = 'No contribution indicators found'
-
-    return None
+    return processed_weeks
 
 
 def count_to_level(count):
@@ -246,17 +177,46 @@ def count_to_level(count):
         return 4
 
 
+@github_bp.route('/api/github-contributions/<username>')
+def get_github_contributions(username):
+    """
+    Endpoint to fetch GitHub contribution data for a user
+
+    Args:
+        username: GitHub username
+
+    Returns:
+        JSON response with contribution data
+    """
+    try:
+        # Check if token is set
+        if not GITHUB_TOKEN:
+            return jsonify({
+                'error': 'GitHub token not configured. Please set up the token using environment variables or the config file.'
+            }), 500
+
+        # Fetch the contribution data
+        data = fetch_github_contributions(username)
+
+        # If fetching failed, generate synthetic data
+        if data is None:
+            return jsonify(generate_synthetic_data(150))
+
+        # Return the contribution data
+        return jsonify(data)
+
+    except Exception as e:
+        current_app.logger.error(f"Error in GitHub contributions endpoint: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+
 def generate_synthetic_data(total_contributions):
-    """Generate synthetic contribution data based on a total count"""
-    # Calculate roughly how many contributions per week
+    """Generate synthetic contribution data for fallback"""
     weeks = 52
     days_per_week = 7
 
-    # Ensure at least 1 contribution per active day
-    min_active_days = min(total_contributions, weeks * days_per_week)
-
-    # Generate synthetic weeks
-    synthetic_weeks = []
+    # Calculate roughly how many contributions per week
+    contributions = []
     remaining = total_contributions
 
     for w in range(weeks):
@@ -266,7 +226,8 @@ def generate_synthetic_data(total_contributions):
             is_weekend = (d == 0 or d == 6)
             activity_chance = 0.3 if is_weekend else 0.7
 
-            if remaining > 0 and (w * days_per_week + d < min_active_days or activity_chance > 0.5):
+            if remaining > 0 and (
+                    w * days_per_week + d < min(total_contributions, weeks * days_per_week) or activity_chance > 0.5):
                 # Distribute remaining contributions
                 count = min(remaining, max(1, int(total_contributions / (weeks * days_per_week) * 2)))
                 remaining -= count
@@ -275,121 +236,76 @@ def generate_synthetic_data(total_contributions):
             else:
                 week.append(0)
 
-        synthetic_weeks.append(week)
-
-    return {'contributions': synthetic_weeks}
-
-
-def process_contributions(contributions_raw):
-    """
-    Process raw contribution data into weeks and days format
-    Input: List of [date, level] pairs
-    Output: Dictionary with weeks array, each week containing 7 days of contribution levels
-    """
-    # Sort contributions by date
-    contributions_raw.sort(key=lambda x: x[0])
-
-    # Create a dictionary to store contributions by date
-    contributions_dict = {item[0]: item[1] for item in contributions_raw}
-
-    # Get date range
-    start_date_str = contributions_raw[0][0]
-    end_date_str = contributions_raw[-1][0]
-
-    start_date = datetime.strptime(start_date_str, '%Y-%m-%d')
-    end_date = datetime.strptime(end_date_str, '%Y-%m-%d')
-
-    # Ensure we have a reasonable date range
-    days_diff = (end_date - start_date).days
-    if days_diff < 300:  # Less than about 10 months
-        # Extend to a full year
-        end_date = start_date + timedelta(days=365)
-
-    # Calculate day of week for start_date
-    start_weekday = start_date.weekday()  # 0=Monday, 6=Sunday
-
-    # Adjust start date to the beginning of the week (Monday)
-    current_date = start_date - timedelta(days=start_weekday)
-
-    # Organize contributions by weeks
-    weeks = []
-    current_week = []
-
-    while current_date <= end_date:
-        date_str = current_date.strftime('%Y-%m-%d')
-        level = contributions_dict.get(date_str, 0)
-
-        current_week.append(level)
-
-        if len(current_week) == 7:
-            weeks.append(current_week)
-            current_week = []
-
-        current_date += timedelta(days=1)
-
-    # Add any remaining days as a partial week
-    if current_week:
-        # Pad with zeros to make a complete week
-        while len(current_week) < 7:
-            current_week.append(0)
-        weeks.append(current_week)
-
-    # Trim to most recent 52 weeks
-    if len(weeks) > 52:
-        weeks = weeks[-52:]
+        contributions.append(week)
 
     return {
-        'contributions': weeks
+        'totalContributions': total_contributions,
+        'contributions': contributions
     }
 
 
-# Optional route for debugging extraction methods
-@github_bp.route('/api/github-debug/<username>')
-def debug_github_extraction(username):
-    """Debug endpoint to test different extraction methods"""
-    try:
-        html_content, status_code = fetch_github_profile(username)
+@github_bp.route('/api/github-test-token')
+def test_github_token():
+    """
+    Endpoint to test if the GitHub token is working properly
 
-        if status_code != 200:
-            return jsonify({'error': f'Failed to fetch GitHub profile: HTTP {status_code}'}), 404
-
-        debug_info = {}
-
-        # Test each extraction method
-        methods = [
-            extract_contributions_from_svg,
-            extract_contributions_from_js_data,
-            extract_contributions_fallback
-        ]
-
-        results = {}
-
-        for method in methods:
-            method_name = method.__name__
-            debug_info = {}
-
-            try:
-                result = method(html_content, username, debug_info)
-                results[method_name] = {
-                    'success': result is not None,
-                    'debug_info': debug_info
-                }
-                if result:
-                    results[method_name]['data_sample'] = {
-                        'weeks_count': len(result.get('contributions', [])),
-                        'first_week': result.get('contributions', [[]])[0] if result.get('contributions') else []
-                    }
-            except Exception as e:
-                results[method_name] = {
-                    'success': False,
-                    'error': str(e),
-                    'debug_info': debug_info
-                }
-
+    Returns:
+        JSON response with token status
+    """
+    if not GITHUB_TOKEN:
         return jsonify({
-            'username': username,
-            'extraction_results': results
-        })
+            'status': 'error',
+            'message': 'GitHub token not configured. Please set up the token using environment variables or the config file.',
+            'setup_instructions': {
+                'environment_variable': 'Set GITHUB_TOKEN environment variable',
+                'config_file': 'Create app/config/github_config.py file with GITHUB_TOKEN variable'
+            }
+        }), 500
+
+    try:
+        # Simple request to the GitHub API to check token validity
+        headers = {
+            "Authorization": f"Bearer {GITHUB_TOKEN}",
+            "Accept": "application/vnd.github.v3+json"
+        }
+
+        response = requests.get(f"{GITHUB_API_URL}/user", headers=headers)
+
+        if response.status_code == 200:
+            user_data = response.json()
+            return jsonify({
+                'status': 'success',
+                'message': f"Token is valid. Authenticated as: {user_data.get('login')}",
+                'scopes': response.headers.get('X-OAuth-Scopes', '').split(', ')
+            })
+        else:
+            return jsonify({
+                'status': 'error',
+                'message': f"Token validation failed: {response.status_code} - {response.text}"
+            }), 400
 
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({
+            'status': 'error',
+            'message': f"Error testing token: {str(e)}"
+        }), 500
+
+
+@github_bp.route('/api/github-token-status')
+def github_token_status():
+    """
+    Endpoint to check if the GitHub token is configured
+
+    Returns:
+        JSON response with token configuration status
+    """
+    is_configured = GITHUB_TOKEN is not None
+
+    return jsonify({
+        'is_configured': is_configured,
+        'configuration_methods': {
+            'environment_variable': 'GITHUB_TOKEN',
+            'config_file': 'app/config/github_config.py'
+        },
+        'documentation': 'Check README for setup instructions'
+    })

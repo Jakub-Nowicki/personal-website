@@ -1,0 +1,118 @@
+/* app/static/css/github-calendar.css */
+.github-calendar-container {
+    width: 100%;
+    background-color: #2a2b30;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.github-calendar-grid {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.github-calendar-months {
+    display: flex;
+    margin-left: 20px;
+    justify-content: space-around;
+    color: #aaa;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.github-calendar-month {
+    flex: 1;
+    text-align: center;
+}
+
+.github-calendar-weeks {
+    display: flex;
+}
+
+.github-calendar-days {
+    display: flex;
+    flex-direction: column;
+    margin-right: 5px;
+    color: #aaa;
+    font-size: 10px;
+}
+
+.github-calendar-day-label {
+    height: 10px;
+    margin-bottom: 5px;
+    line-height: 10px;
+}
+
+.github-calendar-week {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.github-calendar-day {
+    width: 10px;
+    height: 10px;
+    margin: 1px;
+    border-radius: 2px;
+    background-color: #1e1f23;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.github-calendar-day:hover {
+    transform: scale(1.2);
+}
+
+.github-calendar-day.level-0 {
+    background-color: #1e1f23;
+}
+
+.github-calendar-day.level-1 {
+    background-color: #0e4429;
+}
+
+.github-calendar-day.level-2 {
+    background-color: #006d32;
+}
+
+.github-calendar-day.level-3 {
+    background-color: #26a641;
+}
+
+.github-calendar-day.level-4 {
+    background-color: #39d353;
+}
+
+.github-calendar-legend {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 5px;
+    color: #aaa;
+    font-size: 12px;
+}
+
+.github-calendar-legend-text {
+    margin-right: 10px;
+}
+
+.github-calendar-legend-items {
+    display: flex;
+}
+
+.github-calendar-legend-item {
+    width: 10px;
+    height: 10px;
+    margin: 0 2px;
+    border-radius: 2px;
+}
+
+.loading-message {
+    color: #aaa;
+    padding: 20px;
+    text-align: center;
+}
