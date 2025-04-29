@@ -2,7 +2,6 @@
 
 {% block link_css %}
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/contact.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/github-calendar.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 {% endblock %}
 
@@ -83,16 +82,7 @@
                     </div>
                 </div>
             </div>
-
-            <!-- GitHub Activity Section -->
-            <div class="section github-activity-section">
-                <h2 class="section-title"><i class="fas fa-code-branch"></i> GitHub Activity</h2>
-                <div id="github-calendar" class="github-calendar-container">
-                    <p class="loading-message">Loading GitHub activity data...</p>
-                </div>
-            </div>
         </div>
     </div>
 
-    <script src="{{url_for('static', filename='js/github-calendar.js')}}"></script>
 {% endblock %}
