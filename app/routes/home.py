@@ -22,3 +22,7 @@ def contact_page():
 @home_bp.route('/rps-game')
 def rps_page():
     return render_template('rps.html')
+
+@home_bp.route('/sumo-project')
+def sumo_page():
+    return render_template('sumo.html')

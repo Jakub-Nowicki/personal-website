@@ -6,6 +6,32 @@
 
 {% block content %}
     <div id="content">
+        <a href="{{ url_for('home.sumo_page') }}">
+            <div class="project-card">
+                <h1>Enhanced Sustainable Traffic Control for SDG 11</h1>
+                <h3>An intelligent traffic signal control system using Q-learning to optimize waiting time, CO2 emissions, and throughput at urban intersections</h3>
+                <div class="project-tech">
+                    <span class="tech-tag">SUMO-RL</span>
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Q-Learning</span>
+                    <span class="tech-tag">SDG 11</span>
+                    <span class="tech-tag">GitHub</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="{{ url_for('sudoku.sudoku_solver') }}">
+            <div class="project-card">
+                <h1>Sudoku Solver</h1>
+                <h3>A web application that dynamically solves and displays Sudoku puzzles using backtracking algorithms</h3>
+                <div class="project-tech">
+                    <span class="tech-tag">Flask</span>
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Algorithms</span>
+                </div>
+            </div>
+        </a>
+
         <a href="{{ url_for('home.rps_page') }}">
             <div class="project-card">
                 <h1>Rock Paper Scissors OpenCV Game</h1>
@@ -31,16 +57,6 @@
             </div>
         </a>
 
-        <a href="{{ url_for('sudoku.sudoku_solver') }}">
-            <div class="project-card">
-                <h1>Sudoku Solver</h1>
-                <h3>A web application that dynamically solves and displays Sudoku puzzles using backtracking algorithms</h3>
-                <div class="project-tech">
-                    <span class="tech-tag">Flask</span>
-                    <span class="tech-tag">Python</span>
-                    <span class="tech-tag">Algorithms</span>
-                </div>
-            </div>
-        </a>
+
     </div>
 {% endblock %}
